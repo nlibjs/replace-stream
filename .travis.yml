@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+- '9'
+- '8'
+- '7'
+- '6'
+install:
+- npm install -g eslint istanbul
+- npm install
+script:
+- istanbul cover test
+- npm run lint
+after_success:
+- npm install -g codecov
+- codecov
+deploy:
+  provider: npm
+  email: kei.itof@gmail.com
+  api_key:
+    secure: kQnQvLrcdbtdHHXESK9ClfuW9EKiBvzFyYT2/qA+ng7MnQRUiBnfqIS4Kt3esZVP6RYR6R5RYomMB9UR1nqYo9B7oLIY6GxSBg9XCTnZibkAU445Dg3Z6hWoQQBTOLoHiKU8rMbk5MqD6k/hGh9HqejxFNkOK2fscrKH/s2STUcu8G5Yehz5I2saQ4ntLTmj+K6EZeIh+kUppRrUk4naBvPgkICSiQIT+fvvajT1oWwtRdAikZYBS+iAZWzqtPAUhhHNXRmyw0vwGWdDbnxiPLgK6xDMBB7SqW/Angcp/2pf19tbfmJ/Q3bFKcccpbquvniVeHXxYejYz1gc2D4in+tIgUTy+UsfsIZGowdipB8G8MSF78XI8ZetfsSPEg+01cF48DWDFNa5fh7tkz2SQYCbhMKOw406IUPssY4eI9oup7ao/EFrfwyVQv4CNFrKk7LSh7nEN+SWd+aB3yuWNhAnHA5fnWpji1RFXzIjce5Y8hEeXP12JvugZrOMCUYJi/ukE8tzdQmiIc+D2kZul3eBHwhzL8fWjJcG63lQUXux37+gtObuRVVXnv7TjfkwQiqjHkIUIfIXHolF0503iznoc0CNDzfVoDZB6IdLVQxAAFiur7/F/Nz7Pif5Xn3RL9eiUQk9IbfodVmEbp3039+lA3JoD+ae5IQ4ql+ymTw=
+  on:
+    tags: true
+    repo: nlibjs/replace-stream
