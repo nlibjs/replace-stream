@@ -16,7 +16,7 @@ test('readme example', (test) => {
 				{
 					pattern: /ba+r/,
 					replacement: 'BAR',
-					limit: 2
+					limit: 2,
 				},
 			]))
 			.on('data', (chunk) => {
