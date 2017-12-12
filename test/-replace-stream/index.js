@@ -157,7 +157,7 @@ test('ReplaceStream', (test) => {
 					.then(() => {
 						writer.write(source);
 						return new Promise((resolve) => {
-							setTimeout(resolve, 20);
+							setTimeout(resolve);
 						});
 					});
 				}, Promise.resolve())
