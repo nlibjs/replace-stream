@@ -55,9 +55,9 @@ module.exports = class ReplaceStream extends Transform {
 				} else {
 					nextReplacer();
 				}
-			}
+			};
 			return nextMatch();
-		}
+		};
 		nextReplacer();
 	}
 
