@@ -23,30 +23,42 @@ module.exports = class ReplaceStream extends Transform {
 
 	_transform(data, encoding, callback) {
 		let text = `${this.buffer}${this.decoder.write(data)}`;
-		for (const replacer of this.replacers) {
-			const {pattern, replacement} = replacer;
-			while (1) {
-				const result = pattern.exec(text);
+		const replacers = Array.from(this.replacers);
+		const nextReplacer = () => {
+			if (replacers.length === 0) {
+				this.buffer = text;
+				return callback();
+			}
+			const replacer = replacers.shift();
+			const nextMatch = () => {
+				replacer.pattern.lastIndex = 0;
+				const result = replacer.pattern.exec(text);
 				if (result) {
 					const {index, input} = result;
 					this.push(text.slice(0, index));
-					this.push(replacement(...result, index, input));
-					text = text.slice(index + result[0].length);
-					if (0 < replacer.limit) {
-						replacer.limit--;
-						if (replacer.limit === 0) {
-							this.replacers.delete(replacer);
-							break;
+					Promise.resolve(replacer.replacement(...result, index, input))
+					.then((replaced) => {
+						this.push(replaced);
+						text = text.slice(index + result[0].length);
+						if (0 < replacer.limit) {
+							replacer.limit--;
+							if (replacer.limit === 0) {
+								this.replacers.delete(replacer);
+								return nextReplacer();
+							}
 						}
-					}
+						return nextMatch();
+					})
+					.catch((error) => {
+						this.emit('error', error);
+					});
 				} else {
-					break;
+					nextReplacer();
 				}
-				pattern.lastIndex = 0;
 			}
+			return nextMatch();
 		}
-		this.buffer = text;
-		callback();
+		nextReplacer();
 	}
 
 	_flush(callback) {

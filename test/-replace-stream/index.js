@@ -131,6 +131,36 @@ const tests = [
 		}),
 		expected: '😀😎😎😃😄😅😀😎😎',
 	},
+	{
+		replacers: [
+			{
+				pattern: /😁😂/gu,
+				replacement() {
+					return new Promise((resolve) => {
+						setImmediate(() => {
+							resolve('😎😎');
+						});
+					});
+				},
+				limit: -1,
+			},
+		],
+		// echo "😀😁😂" > sample.txt && od -x sample.txt
+		source: [
+			0xf0, 0x9f, 0x98, 0x80,
+			0xf0, 0x9f, 0x98, 0x81,
+			0xf0, 0x9f, 0x98, 0x82,
+			0xf0, 0x9f, 0x98, 0x83,
+			0xf0, 0x9f, 0x98, 0x84,
+			0xf0, 0x9f, 0x98, 0x85,
+			0xf0, 0x9f, 0x98, 0x80,
+			0xf0, 0x9f, 0x98, 0x81,
+			0xf0, 0x9f, 0x98, 0x82,
+		].map((byte) => {
+			return Buffer.from([byte]);
+		}),
+		expected: '😀😎😎😃😄😅😀😎😎',
+	},
 ];
 
 test('ReplaceStream', (test) => {
