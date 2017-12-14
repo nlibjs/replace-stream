@@ -22,9 +22,8 @@
     "test_coverage": "nyc --reporter=lcov --reporter=text npm test"
   },
   "devDependencies": {
-    "@nlib/lint": "^0.2.2",
-    "@nlib/test": "^1.2.0",
-    "nyc": "^11.3.0"
+    "@nlib/lint": "^2.0.0",
+    "@nlib/test": "^1.2.0"
   },
   "dependencies": {
     "@nlib/replacement-function": "^1.0.0"
