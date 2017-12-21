@@ -13,9 +13,7 @@ module.exports = class ReplaceStream extends Transform {
 			if (typeof replacer.pattern === 'string') {
 				replacer.pattern = new RegExp(replacer.pattern.replace(/(\W)/gu, '\\$1'));
 			}
-			if (typeof replacer.replacement === 'string') {
-				replacer.replacement = replacementFunction(replacer.replacement);
-			}
+			replacer.replacement = replacementFunction(replacer.replacement);
 			replacer.limit = replacer.limit || 1;
 			this.replacers.add(replacer);
 		}
