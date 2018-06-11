@@ -1,10 +1,9 @@
-require('./-replace-stream');
-const assert = require('assert');
-const test = require('@nlib/test');
+const t = require('tap');
 const {PassThrough} = require('stream');
-const {ReplaceStream} = require('..');
-test('readme example', (test) => {
-	test('simple text', () => {
+const {ReplaceStream} = require('../..');
+
+t.test('readme examples', (t) => {
+	t.test('simple text', (t) => {
 		return new Promise((resolve) => {
 			const stream = new PassThrough();
 			const chunks = [];
@@ -31,10 +30,10 @@ test('readme example', (test) => {
 			stream.end();
 		})
 		.then((buffer) => {
-			assert.equal(`${buffer}`, 'FOOfooBARBARbaaar');
+			t.equal(`${buffer}`, 'FOOfooBARBARbaaar');
 		});
 	});
-	test('emoji', () => {
+	t.test('emoji', (t) => {
 		return new Promise((resolve) => {
 			const stream = new PassThrough();
 			const chunks = [];
@@ -56,7 +55,8 @@ test('readme example', (test) => {
 			stream.end();
 		})
 		.then((buffer) => {
-			assert.equal(`${buffer}`, '😎😁😂');
+			t.equal(`${buffer}`, '😎😁😂');
 		});
 	});
+	t.end();
 });

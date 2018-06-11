@@ -1,5 +1,4 @@
-const assert = require('assert');
-const test = require('@nlib/test');
+const t = require('tap');
 const {PassThrough} = require('stream');
 const {ReplaceStream} = require('../..');
 
@@ -163,9 +162,9 @@ const tests = [
 	},
 ];
 
-test('ReplaceStream', (test) => {
+t.test('ReplaceStream', (t) => {
 	for (const {replacers, source, expected} of tests) {
-		test(`${Buffer.concat(source.map(Buffer.from))} → ${expected}`, () => {
+		t.test(`${Buffer.concat(source.map(Buffer.from))} → ${expected}`, (t) => {
 			const replaceStream = new ReplaceStream(replacers);
 			return new Promise((resolve, reject) => {
 				const writer = new PassThrough();
@@ -196,8 +195,9 @@ test('ReplaceStream', (test) => {
 				});
 			})
 			.then((actual) => {
-				assert.equal(actual, expected);
+				t.equal(actual, expected);
 			});
 		});
 	}
+	t.end();
 });
