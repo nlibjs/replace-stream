@@ -1,4 +1,3 @@
-const assert = require('assert');
 const t = require('tap');
 const {PassThrough} = require('stream');
 const {ReplaceStream} = require('../..');
